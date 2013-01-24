@@ -69,3 +69,32 @@ new Animator().sequence([
 	duration: 500 }, 
 ]);
 
+// how about some loops?
+function loopedAnimation() {
+    new Animator().sequence([
+    { 
+        type: "scale", 
+        view: pink, 
+        value: 1.5, 
+        duration: 500 }, 
+    { 
+        type: "rotate", 
+        view: pink, 
+        value: 57, 
+        duration: 500 } ,
+    { 
+        type: "fade", 
+        view: blue, 
+        value: 0.8, 
+        duration: 500 } ,
+    { 
+        type: "moveTo", 
+        view: pink, 
+        value: {x: 0, y: 200 }, 
+        duration: 500, onComplete: loopedAnimation }, 
+    ]);
+}
+
+// Run the looped animation
+loopedAnimation();
+
