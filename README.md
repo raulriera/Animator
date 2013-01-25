@@ -58,7 +58,7 @@ new Animator().sequence([
 ]);
 ```
 
-Without the **sequence** method, achievement the same result without the previous code will be a nested nightmare.
+Without the **sequence** method, achieving the same result without the previous code will be a nesting nightmare.
 
 ##More examples
 For more information check out the [examples.js](https://github.com/raulriera/Animator/blob/master/examples.js) file. Or browse around the [Animator.js](https://github.com/raulriera/Animator/blob/master/Animator.js) file. You can find in there support for GET, POST, PUT and DELETE (called destroy for reserved words problems)
