@@ -9,8 +9,8 @@ Animator = function() {};
  */
 Animator.prototype.parallel = function(arrayOfAnimations) {
 	if (arrayOfAnimations) {
-		var arrayOfAnimationsLength = arrayOfAnimations.length;
-		for (var i = arrayOfAnimationsLength - 1; i >= 0; i--){
+		var arrayOfAnimationsLength = arrayOfAnimations.length-1;
+		for (var i = 0; i <= arrayOfAnimationsLength; i++){
 		    var animation = arrayOfAnimations[i];
 			Animator.prototype[animation.type](animation);
 		};	
@@ -56,19 +56,26 @@ Animator.prototype.sequence = function(arrayOfAnimations) {
 	 * @value = value of the opacity (from 0 to 1)
 	 * @duration = duration of the animation
 	 * @onComplete = a function that you want to call after the animation ends
+	 * @delay = (optional) how many milliseconds to wait before doing the animation
  */
 Animator.prototype.fade = function(options) {
 	
 	// defaults
 	var view = options.view;
 	var value = options.value;
-	var duration = options.duration;
+	var duration = options.duration == null ? 250 : options.duration;
 	var onComplete = options.onComplete;
-	//var delay = delay || 0;
+	var delay = options.delay || 0;
 	
 	var animation = Titanium.UI.createAnimation({ "opacity": value, "duration": duration})
 		
-	view.animate(animation);
+	if (delay > 0) {
+		setTimeout(function(){
+			view.animate(animation);
+		}, delay);
+	} else {
+		view.animate(animation);
+	}
 	
 	if (onComplete) {
 		animation.addEventListener("complete", onCompleteListener);
@@ -89,20 +96,69 @@ Animator.prototype.fade = function(options) {
 	 * @value = value of the scale (from 0 to 1)
 	 * @duration = duration of the animation
 	 * @onComplete = a function that you want to call after the animation ends
+	 * @delay = (optional) how many milliseconds to wait before doing the animation
  */
 Animator.prototype.scale = function(options) {
 	
 	// defaults
 	var view = options.view;
 	var value = options.value;
-	var duration = options.duration;
+	var duration = options.duration == null ? 250 : options.duration;
 	var onComplete = options.onComplete;
-	//var delay = delay || 0;
+	var delay = options.delay || 0;
 	
 	var targetedValue = Titanium.UI.create2DMatrix({ "scale": value });
 	var animation = Titanium.UI.createAnimation({ "transform": targetedValue, "duration": duration})
 	
-	view.animate(animation);
+	if (delay > 0) {
+		setTimeout(function(){
+			view.animate(animation);
+		}, delay);
+	} else {
+		view.animate(animation);
+	}
+	
+	if (onComplete) {
+		animation.addEventListener("complete", onCompleteListener);
+	}
+	
+	function onCompleteListener(e){
+		onComplete();
+		animation.removeEventListener("complete", onCompleteListener);
+	}
+	
+	// return the animation so we can do the "Sequence"
+	return animation;
+};
+
+/*
+ * @object = an object with the following required variables
+	 * @view = the actual view you want to animate
+	 * @value = (optional) object with the flip scale -1,1 for example
+	 * @duration = duration of the animation
+	 * @onComplete = a function that you want to call after the animation ends
+	 * @delay = (optional) how many milliseconds to wait before doing the animation
+ */
+Animator.prototype.flip = function(options) {
+	
+	// defaults
+	var view = options.view;
+	var value = options.value || { "x": -1, "y": 1 };
+	var duration = options.duration == null ? 250 : options.duration;
+	var onComplete = options.onComplete;
+	var delay = options.delay || 0;
+		
+	var targetedValue = Titanium.UI.create2DMatrix();
+	targetedValue = targetedValue.scale(value.x, value.y);
+	var animation = Titanium.UI.createAnimation({ "transform": targetedValue, "duration": duration})
+	
+	if (delay > 0) {
+		setTimeout(function(){
+			view.animate(animation);
+		}, delay);
+	} else {
+		view.animate(animation);
+	}
 	
 	if (onComplete) {
 		animation.addEventListener("complete", onCompleteListener);
@@ -123,20 +179,27 @@ Animator.prototype.scale = function(options) {
 	 * @value = value of the rotation (in degrees)
 	 * @duration = duration of the animation
 	 * @onComplete = a function that you want to call after the animation ends
+	 * @delay = (optional) how many milliseconds to wait before doing the animation
  */
 Animator.prototype.rotate = function(options) {
 	
 	// defaults
 	var view = options.view;
 	var value = options.value;
-	var duration = options.duration;
+	var duration = options.duration == null ? 250 : options.duration;
 	var onComplete = options.onComplete;
-	//var delay = delay || 0;
+	var delay = options.delay || 0;
 	
 	var targetedValue = Titanium.UI.create2DMatrix({ "rotate": value });
 	var animation = Titanium.UI.createAnimation({ "transform": targetedValue, "duration": duration})
 	
-	view.animate(animation);
+	if (delay > 0) {
+		setTimeout(function(){
+			view.animate(animation);
+		}, delay);
+	} else {
+		view.animate(animation);
+	}
 	
 	if (onComplete) {
 		animation.addEventListener("complete", onCompleteListener);
@@ -157,22 +220,29 @@ Animator.prototype.rotate = function(options) {
 	 * @value = value of the coordinates (an object with the X and Y properties)
 	 * @duration = duration of the animation
 	 * @onComplete = a function that you want to call after the animation ends
+	 * @delay = (optional) how many milliseconds to wait before doing the animation
  */
 Animator.prototype.moveTo = function(options) {
 	
 	// defaults
 	var view = options.view;
 	var value = options.value;
-	var duration = options.duration;
+	var duration = options.duration == null ? 250 : options.duration;
 	var onComplete = options.onComplete;
-	//var delay = delay || 0;	
+	var delay = options.delay || 0;	
 	
 	var targetedValue = Titanium.UI.create2DMatrix();
 	targetedValue = targetedValue.translate(value.x, value.y); // Looks like I can't do this one in one line
 	
 	var animation = Titanium.UI.createAnimation({ "transform": targetedValue, "duration": duration})
-	
-	view.animate(animation);
+		
+	if (delay > 0) {
+		setTimeout(function(){
+			view.animate(animation);
+		}, delay);
+	} else {
+		view.animate(animation);
+	}
 	
 	if (onComplete) {
 		animation.addEventListener("complete", onCompleteListener);

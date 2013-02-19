@@ -14,6 +14,7 @@ Now that you have the module initialised you can call one of these 4 animation f
 * **scale**: increases or decreases the size of the view
 * **rotate**: rotates the view
 * **fade**: changes the opacity of the view
+* **flip**: flips the view (horizontally if nothing is passed)
 * **moveTo**: moves the view in the X and Y coordinates
 
 Let's for example scale a window to 80% of its size
