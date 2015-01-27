@@ -273,7 +273,7 @@ Animator.prototype.moveTo = function (options) {
 /*
  * @object = an object with the following required variables
  * @view = the actual view you want to animate
- * @value = (optional) object with the scales
+ * @value = (optional) object with the dimensions
  * @duration = duration of the animation
  * @onComplete = a function that you want to call after the animation ends
  * @delay = (optional) how many milliseconds to wait before doing the animation
@@ -289,7 +289,6 @@ Animator.prototype.sizeTo = function (options) {
     var delay = options.delay || 0;
 
     var animation = Ti.UI.createAnimation({duration: duration});
-    //animation.curve = Ti.UI.ANIMATION_CURVE_LINEAR;
     if (value.width !== undefined) {
         animation.width = value.width;
     }
@@ -335,7 +334,6 @@ Animator.prototype.sizeTo = function (options) {
         animation.removeEventListener('complete', onCompleteListener);
     }
 
-    // return the animation so we can do the 'Sequence'
     return animation;
 };
 
