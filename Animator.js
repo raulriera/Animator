@@ -54,6 +54,58 @@ Animator.prototype.sequence = function (arrayOfAnimations) {
 /*
  * @object = an object with the following required variables
  * @view = the actual view you want to animate
+ * @value = string or hex value of the backgroundColor
+ * @duration = duration of the animation
+ * @onComplete = a function that you want to call after the animation ends
+ * @delay = (optional) how many milliseconds to wait before doing the animation
+ */
+Animator.prototype.backgroundColor = function (options) {
+
+    // defaults
+    var view = options.view;
+    var value = options.value;
+    var duration = options.duration == null ? 300 : options.duration;
+    var onComplete = options.onComplete;
+    var onStart = options.onStart;
+    var delay = options.delay || 0;
+
+    var animation = Ti.UI.createAnimation({backgroundColor: value, duration: duration})
+
+    if (delay > 0) {
+        setTimeout(function () {
+            view.animate(animation);
+        }, delay);
+    } else {
+        if (view) {
+            view.animate(animation);
+        }
+    }
+
+    if (onStart) {
+        animation.addEventListener('start', onStartListener);
+    }
+
+    function onStartListener(e) {
+        onStart();
+        animation.removeEventListener('start', onStartListener);
+    }
+
+    if (onComplete) {
+        animation.addEventListener('complete', onCompleteListener);
+    }
+
+    function onCompleteListener(e) {
+        onComplete();
+        animation.removeEventListener('complete', onCompleteListener);
+    }
+
+    // return the animation so we can do the 'Sequence'
+    return animation;
+};
+
+/*
+ * @object = an object with the following required variables
+ * @view = the actual view you want to animate
  * @value = value of the opacity (from 0 to 1)
  * @duration = duration of the animation
  * @onComplete = a function that you want to call after the animation ends
