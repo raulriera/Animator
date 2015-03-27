@@ -20,12 +20,13 @@ Animator.prototype.parallel = function (arrayOfAnimations) {
 
 /*
  * @arrayOfAnimations = array of animation objects to run in sequence (one by one in queue)
+ * @repeated = should the animation be repeated endless
  * ---- Note
  * ---- The first argument must include the animation
  * ---- type in a field named 'type'. For the rest of the
  * ---- arguments consult the desired animation
  */
-Animator.prototype.sequence = function (arrayOfAnimations) {
+Animator.prototype.sequence = function (arrayOfAnimations, repeated) {
     var currentAnimation = 0;
     var lastAnimation;
     var arrayOfAnimationsLength = arrayOfAnimations.length - 1;
@@ -40,15 +41,22 @@ Animator.prototype.sequence = function (arrayOfAnimations) {
             lastAnimation.addEventListener('complete', onCompleteListener);
         }
 
-        // Increase the current animation count
-        currentAnimation = currentAnimation + 1;
+        if (currentAnimation == arrayOfAnimationsLength && repeated === true) {
+            currentAnimation = 0;
+            lastAnimation.removeEventListener('complete', onCompleteListener);
+            setTimeout(function () {
+                Animator.prototype.sequence(arrayOfAnimations, true);
+            }, 50);
+        } else {
+            // Increase the current animation count
+            currentAnimation = currentAnimation + 1;
+        }
     }
 
     function onCompleteListener(e) {
         lastAnimation.removeEventListener('complete', onCompleteListener);
         runNextAnimation();
     }
-
 };
 
 /*
