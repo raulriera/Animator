@@ -45,7 +45,6 @@ Animator.prototype.sequence = function (arrayOfAnimations, repeated) {
             currentAnimation = 0;
             lastAnimation.removeEventListener('complete', onCompleteListener);
             Animator.prototype.sequence(arrayOfAnimations, true);
-            alert('repeat');
         } else {
             // Increase the current animation count
             currentAnimation = currentAnimation + 1;
