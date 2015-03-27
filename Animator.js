@@ -26,7 +26,7 @@ Animator.prototype.parallel = function (arrayOfAnimations) {
  * ---- type in a field named 'type'. For the rest of the
  * ---- arguments consult the desired animation
  */
-Animator.prototype.sequence = function (arrayOfAnimations, repeated) {
+Animator.prototype.sequence = function (arrayOfAnimations) {
     var currentAnimation = 0;
     var lastAnimation;
     var arrayOfAnimationsLength = arrayOfAnimations.length - 1;
