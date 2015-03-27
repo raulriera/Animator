@@ -41,16 +41,8 @@ Animator.prototype.sequence = function (arrayOfAnimations, repeated) {
             lastAnimation.addEventListener('complete', onCompleteListener);
         }
 
-        if (currentAnimation == arrayOfAnimationsLength && repeated === true) {
-            currentAnimation = 0;
-            lastAnimation.removeEventListener('complete', onCompleteListener);
-            setTimeout(function () {
-                Animator.prototype.sequence(arrayOfAnimations, true);
-            }, 50);
-        } else {
-            // Increase the current animation count
-            currentAnimation = currentAnimation + 1;
-        }
+        // Increase the current animation count
+        currentAnimation = currentAnimation + 1;
     }
 
     function onCompleteListener(e) {
