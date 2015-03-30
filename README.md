@@ -9,7 +9,7 @@ In your app.js (or elsewhere), call:
 var Animator = require("Animator");
 ```
 
-Now that you have the module initialised you can call one of these 4 animation functions:
+Now that you have the module initialised you can call one of animation functions:
 
 * **scale**: increases or decreases the size of the view
 * **rotate**: rotates the view
