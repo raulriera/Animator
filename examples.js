@@ -31,6 +31,11 @@ new Animator().scale({
 	} 
 }); 
 
+// shake it, baby
+new Animator().shake({
+	view: blue
+});
+
 // do a couple of animations at the same time
 new Animator().parallel([
 { 

@@ -18,6 +18,7 @@ Now that you have the module initialised you can call one of these 4 animation f
 * **moveTo**: moves the view in the X and Y coordinates
 * **sizeTo**: resizing and positioning the view through width, height, bottom, top, left and right
 * **backgroundColor**: changes the backgroundColor of the view with fading effect
+* **shake**: shake a view like the code dots on the iOS passcode screen
 
 Let's for example scale a window to 80% of its size
 

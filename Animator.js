@@ -389,4 +389,68 @@ Animator.prototype.sizeTo = function (options) {
     return animation;
 };
 
+/*
+ * @object = an object with the following required variables
+ * @view = the actual view you want to animate
+ * @value = (optional) object with parameter repeat
+ * @duration = duration of the animation
+ * @onComplete = a function that you want to call after the animation ends
+ * @delay = (optional) how many milliseconds to wait before doing the animation
+ */
+Animator.prototype.shake = function (options) {
+
+    // defaults
+    var view = options.view;
+    var value = options.value || {};
+    var duration = options.duration == null ? 50 : options.duration;
+    var onComplete = options.onComplete;
+    var onStart = options.onStart;
+    var delay = options.delay || 0;
+
+    var tr_init = Ti.UI.create2DMatrix();
+    var tr_start = tr_init.translate(7, 0);
+    var tr_anim = tr_init.translate(-14, 0);
+
+    view.transform = tr_start;
+
+    //Animation
+    var animation = Ti.UI.createAnimation();
+    animation.transform = tr_anim;
+    animation.duration = duration;
+    animation.autoreverse = true;
+    animation.repeat = value.repeat || 3;
+    animation.delay = 0;
+
+    if (delay > 0) {
+        setTimeout(function () {
+            view.animate(animation);
+        }, delay);
+    } else {
+        view.animate(animation);
+    }
+
+    animation.addEventListener('complete', function () {
+        view.transform = tr_init;
+    });
+
+    if (onStart) {
+        animation.addEventListener('start', onStartListener);
+    }
+
+    function onStartListener(e) {
+        onStart();
+        animation.removeEventListener('start', onStartListener);
+    }
+
+    if (onComplete) {
+        animation.addEventListener('complete', onCompleteListener);
+    }
+
+    function onCompleteListener(e) {
+        onComplete();
+        animation.removeEventListener('complete', onCompleteListener);
+    }
+
+};
+
 module.exports = Animator;
